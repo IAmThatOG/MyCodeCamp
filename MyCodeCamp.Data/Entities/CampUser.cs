@@ -2,9 +2,8 @@ using System;
 
 namespace MyCodeCamp.Data.Entities
 {
-    public class CampUser
+    public class CampUser : BaseEntity
     {
-        public int Id { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }
     }

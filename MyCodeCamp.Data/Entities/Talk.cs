@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCodeCamp.Data.Entities
 {
-    public class Talk
-    {
-        public int Id { get; set; }
+    public class Talk : BaseEntity
+    {    
+        [Required]
         public string Title { get; set; }
         public string Abstract { get; set; }
         public string Category { get; set; }

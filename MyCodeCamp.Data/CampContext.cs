@@ -8,9 +8,10 @@ namespace MyCodeCamp.Data
     {
         public CampContext(DbContextOptions<CampContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder moduleBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
+            
         }
         public DbSet<Camp> Camps { get; set; }
         public DbSet<Location> Locations { get; set; }

@@ -2,9 +2,8 @@ using System.Collections.Generic;
 
 namespace MyCodeCamp.Data.Entities
 {
-    public class Speaker
+    public class Speaker : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public string PhoneNumber { get; set; }

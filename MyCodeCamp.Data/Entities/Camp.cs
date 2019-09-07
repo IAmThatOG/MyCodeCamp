@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System;
 namespace MyCodeCamp.Data.Entities
 {
-    public class Camp
+    public class Camp : BaseEntity
     {
-        public int Id { get; set; }
         public string Moniker { get; set; }
         public string Name { get; set; }
         public DateTime EventDate { get; set; } = DateTime.MinValue;

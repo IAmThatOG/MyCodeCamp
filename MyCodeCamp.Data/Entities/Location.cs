@@ -1,8 +1,7 @@
 namespace MyCodeCamp.Data.Entities
 {
-    public class Location
+    public class Location : BaseEntity
     {
-        public int Id { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
