@@ -7,7 +7,7 @@ namespace MyCodeCamp.Data.Entities
         public int Id { get; set; }
         public string Moniker { get; set; }
         public string Name { get; set; }
-        public DateTime EventDate { get; set; } = DateTime.MinValue();
+        public DateTime EventDate { get; set; } = DateTime.MinValue;
         public int Length { get; set; }
         public string Description { get; set; }
         public Location Location { get; set; }
@@ -15,7 +15,7 @@ namespace MyCodeCamp.Data.Entities
 
         public Camp()
         {
-            Speakers = new ICollection<Speaker>();
+            Speakers = new List<Speaker>();
         }
 
     }

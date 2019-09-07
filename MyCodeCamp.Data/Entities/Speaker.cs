@@ -20,7 +20,7 @@ namespace MyCodeCamp.Data.Entities
 
         public Speaker()
         {
-            Talks = new ICollection<Talk>();
+            Talks = new List<Talk>();
         }
     }
 }
