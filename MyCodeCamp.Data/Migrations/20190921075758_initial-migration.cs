@@ -12,8 +12,11 @@ namespace MyCodeCamp.Data.Migrations
                 name: "CampUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Firstname = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
@@ -26,8 +29,11 @@ namespace MyCodeCamp.Data.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Address1 = table.Column<string>(nullable: true),
                     Address2 = table.Column<string>(nullable: true),
                     Address3 = table.Column<string>(nullable: true),
@@ -45,14 +51,17 @@ namespace MyCodeCamp.Data.Migrations
                 name: "Camps",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Moniker = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     EventDate = table.Column<DateTime>(nullable: false),
                     Length = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    LocationId = table.Column<int>(nullable: true)
+                    LocationId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,15 +71,18 @@ namespace MyCodeCamp.Data.Migrations
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Speakers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Name = table.Column<string>(nullable: true),
                     CompanyName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
@@ -79,8 +91,8 @@ namespace MyCodeCamp.Data.Migrations
                     GitHubName = table.Column<string>(nullable: true),
                     Bio = table.Column<string>(nullable: true),
                     HeadShotUrl = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: true),
-                    CampId = table.Column<int>(nullable: true)
+                    CampId = table.Column<long>(nullable: false),
+                    UserId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +102,7 @@ namespace MyCodeCamp.Data.Migrations
                         column: x => x.CampId,
                         principalTable: "Camps",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Speakers_CampUser_UserId",
                         column: x => x.UserId,
@@ -103,16 +115,19 @@ namespace MyCodeCamp.Data.Migrations
                 name: "Talks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     Abstract = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Level = table.Column<string>(nullable: true),
                     Prerequisites = table.Column<string>(nullable: true),
                     StartingTime = table.Column<DateTime>(nullable: false),
                     Room = table.Column<string>(nullable: true),
-                    SpeakerId = table.Column<int>(nullable: true)
+                    SpeakerId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,7 +137,7 @@ namespace MyCodeCamp.Data.Migrations
                         column: x => x.SpeakerId,
                         principalTable: "Speakers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

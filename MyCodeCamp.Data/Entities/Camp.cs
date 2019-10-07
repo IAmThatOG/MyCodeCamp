@@ -9,6 +9,7 @@ namespace MyCodeCamp.Data.Entities
         public DateTime EventDate { get; set; } = DateTime.MinValue;
         public int Length { get; set; }
         public string Description { get; set; }
+        public long LocationId { get; set; }
         public Location Location { get; set; }
         public ICollection<Speaker> Speakers { get; set; }
 

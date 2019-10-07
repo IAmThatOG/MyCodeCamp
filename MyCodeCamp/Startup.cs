@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using MyCodeCamp.Data;
+using MyCodeCamp.Data.repositories;
+using MyCodeCamp.Data.repositories.implementations;
+using MyCodeCamp.Domain.services.implementations;
+using MyCodeCamp.Domain.services;
+using Newtonsoft.Json;
 
 namespace MyCodeCamp
 {
@@ -26,12 +24,16 @@ namespace MyCodeCamp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton(_config);
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             
-            services.AddDbContext<CampContext>(options =>
-                options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
-            
+            var connectionString = _config.GetConnectionString("Conn");
+            var dbConnection = "Server=(local);Database=MyCodeCampDb;User Id=sa;Password=Gabbyg89@.com;";
+            services.AddDbContext<CampContext>(options => options.UseSqlServer(dbConnection));
+
+            services.AddScoped<ICampRepository, CampRepository>();
+            services.AddScoped<ICampService, CampService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

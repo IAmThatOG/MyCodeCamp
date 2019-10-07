@@ -10,8 +10,8 @@ using MyCodeCamp.Data;
 namespace MyCodeCamp.Data.Migrations
 {
     [DbContext(typeof(CampContext))]
-    [Migration("20190907062733_added-created-and-updated-date-columns")]
-    partial class addedcreatedandupdateddatecolumns
+    [Migration("20190921081029_seeded-database")]
+    partial class seededdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,17 +37,26 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<int>("Length");
 
-                    b.Property<long?>("LocationId");
+                    b.Property<long>("LocationId");
 
                     b.Property<string>("Moniker");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
 
                     b.ToTable("Camps");
+
+                    b.HasData(
+                        new { Id = 1L, DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 302, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 302, DateTimeKind.Local), Description = "This is the first code camp", EventDate = new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Local), Length = 1, LocationId = 1L, Moniker = "ATL2016", Name = "Your First Code Camp" }
+                    );
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.CampUser", b =>
@@ -63,6 +72,10 @@ namespace MyCodeCamp.Data.Migrations
                     b.Property<string>("Firstname");
 
                     b.Property<string>("LastName");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Id");
 
@@ -91,11 +104,19 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("PostalCode");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("StateProvince");
 
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
+
+                    b.HasData(
+                        new { Id = 1L, Address1 = "123 Main Street", CityTown = "Atlanta", Country = "USA", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 299, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 301, DateTimeKind.Local), PostalCode = "30303", StateProvince = "GA" }
+                    );
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Speaker", b =>
@@ -106,7 +127,7 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("Bio");
 
-                    b.Property<long?>("CampId");
+                    b.Property<long>("CampId");
 
                     b.Property<string>("CompanyName");
 
@@ -122,6 +143,10 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("PhoneNumber");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("TwitterName");
 
                     b.Property<long?>("UserId");
@@ -135,6 +160,11 @@ namespace MyCodeCamp.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Speakers");
+
+                    b.HasData(
+                        new { Id = 1L, Bio = "I'm a speaker", CampId = 1L, CompanyName = "Wilder Minds LLC", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 303, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 303, DateTimeKind.Local), GitHubName = "shawnwildermuth", HeadShotUrl = "http://wilderminds.com/images/minds/shawnwildermuth.jpg", Name = "Shawn Wildermuth", PhoneNumber = "555-1212", TwitterName = "shawnwildermuth", WebsiteUrl = "http://wildermuth.com" },
+                        new { Id = 2L, Bio = "I'm a speaker", CampId = 1L, CompanyName = "Wilder Minds LLC", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 303, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 303, DateTimeKind.Local), GitHubName = "resawildermuth", HeadShotUrl = "http://wilderminds.com/images/minds/resawildermuth.jpg", Name = "Resa Wildermuth", PhoneNumber = "555-1212", TwitterName = "resawildermuth", WebsiteUrl = "http://wildermuth.com" }
+                    );
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Talk", b =>
@@ -157,7 +187,11 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("Room");
 
-                    b.Property<long?>("SpeakerId");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<long>("SpeakerId");
 
                     b.Property<DateTime>("StartingTime");
 
@@ -169,20 +203,28 @@ namespace MyCodeCamp.Data.Migrations
                     b.HasIndex("SpeakerId");
 
                     b.ToTable("Talks");
+
+                    b.HasData(
+                        new { Id = 1L, Abstract = "How to do ASP.NET Core", Category = "Web Development", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), Level = "100", Prerequisites = "C# Experience", Room = "245", SpeakerId = 1L, StartingTime = new DateTime(2019, 9, 21, 14, 30, 0, 0, DateTimeKind.Unspecified), Title = "How to do ASP.NET Core" },
+                        new { Id = 2L, Abstract = "How to do Bootstrap 4", Category = "Web Development", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), Level = "100", Prerequisites = "CSS Experience", Room = "246", SpeakerId = 1L, StartingTime = new DateTime(2019, 9, 21, 13, 0, 0, 0, DateTimeKind.Unspecified), Title = "How to do Bootstrap 4" },
+                        new { Id = 3L, Abstract = "Managing a Consulting Business", Category = "Soft Skills", DateCreated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), DateUpdated = new DateTime(2019, 9, 21, 9, 10, 29, 309, DateTimeKind.Local), Level = "100", Room = "230", SpeakerId = 2L, StartingTime = new DateTime(2019, 9, 21, 10, 30, 0, 0, DateTimeKind.Unspecified), Title = "Managing a Consulting Business" }
+                    );
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Camp", b =>
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Speaker", b =>
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Camp", "Camp")
                         .WithMany("Speakers")
-                        .HasForeignKey("CampId");
+                        .HasForeignKey("CampId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyCodeCamp.Data.Entities.CampUser", "User")
                         .WithMany()
@@ -193,7 +235,8 @@ namespace MyCodeCamp.Data.Migrations
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Speaker", "Speaker")
                         .WithMany("Talks")
-                        .HasForeignKey("SpeakerId");
+                        .HasForeignKey("SpeakerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

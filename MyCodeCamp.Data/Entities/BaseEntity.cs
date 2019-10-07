@@ -10,6 +10,6 @@ namespace MyCodeCamp.Data.Entities
 
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public long RowVersion { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

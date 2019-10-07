@@ -12,6 +12,7 @@ namespace MyCodeCamp.Data.Entities
         public string GitHubName { get; set; }
         public string Bio { get; set; }
         public string HeadShotUrl { get; set; }
+        public long CampId { get; set; }
         public CampUser User { get; set; }
 
         public ICollection<Talk> Talks { get; set; }

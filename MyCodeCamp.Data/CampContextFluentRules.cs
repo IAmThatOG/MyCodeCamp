@@ -7,37 +7,53 @@ namespace MyCodeCamp.Data
     {
         public static void ConfigureCampEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Camp>().HasKey(c => c.Id);
-            modelBuilder.Entity<Camp>().Property<string>(c => c.Name).IsRequired(true);
-            modelBuilder.Entity<Camp>().Property<long>(c => c.RowVersion).IsRowVersion();
-            modelBuilder.Entity<Camp>().HasMany<Speaker>(c => c.Speakers).WithOne(s => s.Camp);
+            modelBuilder.Entity<Camp>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.Property<string>(c => c.Name).IsRequired(true);
+                entity.Property<byte[]>(c => c.RowVersion).IsRowVersion();
+                entity.HasMany<Speaker>(c => c.Speakers).WithOne(s => s.Camp);
+            });
         }
 
         public static void ConfigureLocationEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Location>().HasKey(l => l.Id);
-            modelBuilder.Entity<Location>().Property<long>(l => l.RowVersion).IsRowVersion();
+            modelBuilder.Entity<Location>(entity =>
+            {
+                entity.HasKey(l => l.Id);
+                entity.Property<byte[]>(l => l.RowVersion).IsRowVersion();
+            });
         }
 
         public static void ConfigureSpeakerEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Speaker>().HasKey(s => s.Id);
-            modelBuilder.Entity<Speaker>().Property<long>(s => s.RowVersion).IsRowVersion();
-            modelBuilder.Entity<Speaker>().HasOne<Camp>(s => s.Camp).WithMany(c => c.Speakers);
-            modelBuilder.Entity<Speaker>().HasMany<Talk>(s => s.Talks).WithOne(t => t.Speaker);
+            modelBuilder.Entity<Speaker>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+                entity.Property<byte[]>(s => s.RowVersion).IsRowVersion();
+                entity.HasOne<Camp>(s => s.Camp).WithMany(c => c.Speakers);
+                entity.HasOne<CampUser>(s => s.User);
+                entity.HasMany<Talk>(s => s.Talks).WithOne(t => t.Speaker);
+            });
         }
 
         public static void ConfigureTalkEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Talk>().HasKey(t => t.Id);
-            modelBuilder.Entity<Talk>().Property<long>(t => t.RowVersion).IsRowVersion();
-            modelBuilder.Entity<Talk>().HasOne(t => t.Speaker).WithMany(s => s.Talks);
+            modelBuilder.Entity<Talk>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+                entity.Property<byte[]>(t => t.RowVersion).IsRowVersion();
+                entity.HasOne<Speaker>(t => t.Speaker).WithMany(s => s.Talks);
+            });
         }
 
         public static void ConfigureCampUserEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CampUser>().HasKey(cu => cu.Id);
-            modelBuilder.Entity<CampUser>().Property<long>(cu => cu.RowVersion).IsRowVersion();
+            modelBuilder.Entity<CampUser>(entity =>
+            {
+                entity.HasKey(cu => cu.Id);
+                entity.Property<byte[]>(cu => cu.RowVersion).IsRowVersion();
+            });
         }
     }
 }

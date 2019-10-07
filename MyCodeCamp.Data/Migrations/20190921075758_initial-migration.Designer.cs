@@ -10,7 +10,7 @@ using MyCodeCamp.Data;
 namespace MyCodeCamp.Data.Migrations
 {
     [DbContext(typeof(CampContext))]
-    [Migration("20190907053345_initial-migration")]
+    [Migration("20190921075758_initial-migration")]
     partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,13 @@ namespace MyCodeCamp.Data.Migrations
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Camp", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
 
                     b.Property<string>("Description");
 
@@ -33,11 +37,16 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<int>("Length");
 
-                    b.Property<int?>("LocationId");
+                    b.Property<long>("LocationId");
 
                     b.Property<string>("Moniker");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Id");
 
@@ -48,13 +57,21 @@ namespace MyCodeCamp.Data.Migrations
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.CampUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
 
                     b.Property<string>("Firstname");
 
                     b.Property<string>("LastName");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Id");
 
@@ -63,7 +80,7 @@ namespace MyCodeCamp.Data.Migrations
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Location", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -77,7 +94,15 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
+
                     b.Property<string>("PostalCode");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("StateProvince");
 
@@ -88,15 +113,19 @@ namespace MyCodeCamp.Data.Migrations
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Speaker", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Bio");
 
-                    b.Property<int?>("CampId");
+                    b.Property<long>("CampId");
 
                     b.Property<string>("CompanyName");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
 
                     b.Property<string>("GitHubName");
 
@@ -106,9 +135,13 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("PhoneNumber");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("TwitterName");
 
-                    b.Property<int?>("UserId");
+                    b.Property<long?>("UserId");
 
                     b.Property<string>("WebsiteUrl");
 
@@ -123,7 +156,7 @@ namespace MyCodeCamp.Data.Migrations
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Talk", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -131,17 +164,26 @@ namespace MyCodeCamp.Data.Migrations
 
                     b.Property<string>("Category");
 
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
+
                     b.Property<string>("Level");
 
                     b.Property<string>("Prerequisites");
 
                     b.Property<string>("Room");
 
-                    b.Property<int?>("SpeakerId");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<long>("SpeakerId");
 
                     b.Property<DateTime>("StartingTime");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -154,14 +196,16 @@ namespace MyCodeCamp.Data.Migrations
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyCodeCamp.Data.Entities.Speaker", b =>
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Camp", "Camp")
                         .WithMany("Speakers")
-                        .HasForeignKey("CampId");
+                        .HasForeignKey("CampId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyCodeCamp.Data.Entities.CampUser", "User")
                         .WithMany()
@@ -172,7 +216,8 @@ namespace MyCodeCamp.Data.Migrations
                 {
                     b.HasOne("MyCodeCamp.Data.Entities.Speaker", "Speaker")
                         .WithMany("Talks")
-                        .HasForeignKey("SpeakerId");
+                        .HasForeignKey("SpeakerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
